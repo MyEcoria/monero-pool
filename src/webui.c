@@ -60,19 +60,21 @@ static const char*
 fetch_wa_cookie(struct evhttp_request *req)
 {
     struct evkeyvalq *hdrs_in = evhttp_request_get_input_headers(req);
-    const char *cookies = evhttp_find_header(hdrs_in, "Cookie");
+    const char *cookies = evhttp_find_header(hdrs_in, "Address");
     char *wa = NULL;
 
     if (cookies)
     {
-        wa = strstr(cookies, "wa=");
-        if (wa)
-        {
-            char *sc = strchr(wa, ';');
-            if (sc)
-                *sc = 0;
-            wa += 3;
-        }
+        wa = cookies;
+        printf(wa);
+        // wa = strstr(cookies, "add=");
+        // if (wa)
+        // {
+        //     char *sc = strchr(wa, ';');
+        //     if (sc)
+        //         *sc = 0;
+        //     wa += 3;
+        // }
     }
     return wa;
 }
@@ -86,13 +88,14 @@ send_json_workers(struct evhttp_request *req, void *arg)
     char *end = rig_list + sizeof(rig_list);
     const char *wa = fetch_wa_cookie(req);
 
-    if (wa)
+    if (wa) {
         worker_list(rig_list, end, wa);
-
-    evbuffer_add_printf(buf, "[%s]", rig_list);
-    hdrs_out = evhttp_request_get_output_headers(req);
-    evhttp_add_header(hdrs_out, "Content-Type", "application/json");
-    evhttp_send_reply(req, HTTP_OK, "OK", buf);
+    
+        evbuffer_add_printf(buf, "[%s]", rig_list);
+        hdrs_out = evhttp_request_get_output_headers(req);
+        evhttp_add_header(hdrs_out, "Content-Type", "application/json");
+        evhttp_send_reply(req, HTTP_OK, "OK", buf);
+    }
 }
 
 static void

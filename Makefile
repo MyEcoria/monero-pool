@@ -62,7 +62,7 @@ MONERO_LIBS = \
   ${MONERO_BUILD_ROOT}/contrib/epee/src/libepee.a \
   ${MONERO_BUILD_ROOT}/external/easylogging++/libeasylogging.a \
   ${MONERO_BUILD_ROOT}/src/libversion.a \
-  ${MONERO_BUILD_ROOT}/external/randomx/librandomx.a
+  ${MONERO_BUILD_ROOT}/external/randomwow/librandomx.a
 
 DIRS = src data rxi/log/src
 
